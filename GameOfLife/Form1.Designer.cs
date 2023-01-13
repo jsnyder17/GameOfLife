@@ -42,6 +42,11 @@
             this.label5 = new System.Windows.Forms.Label();
             this.rbMoore = new System.Windows.Forms.RadioButton();
             this.rbVonNeumann = new System.Windows.Forms.RadioButton();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cbCellColor = new System.Windows.Forms.ComboBox();
+            this.cbGridColor = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.tbGameSpeed)).BeginInit();
             this.SuspendLayout();
             // 
@@ -185,11 +190,61 @@
             this.rbVonNeumann.Text = "Von Neumann (4)";
             this.rbVonNeumann.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label6.Location = new System.Drawing.Point(533, 366);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(73, 15);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Appearnace";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(534, 396);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(57, 15);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Cell color";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(534, 429);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(59, 15);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Grid color";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
+            // 
+            // cbCellColor
+            // 
+            this.cbCellColor.FormattingEnabled = true;
+            this.cbCellColor.Location = new System.Drawing.Point(597, 393);
+            this.cbCellColor.Name = "cbCellColor";
+            this.cbCellColor.Size = new System.Drawing.Size(121, 23);
+            this.cbCellColor.TabIndex = 17;
+            // 
+            // cbGridColor
+            // 
+            this.cbGridColor.FormattingEnabled = true;
+            this.cbGridColor.Location = new System.Drawing.Point(597, 426);
+            this.cbGridColor.Name = "cbGridColor";
+            this.cbGridColor.Size = new System.Drawing.Size(121, 23);
+            this.cbGridColor.TabIndex = 18;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 516);
+            this.Controls.Add(this.cbGridColor);
+            this.Controls.Add(this.cbCellColor);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.rbVonNeumann);
             this.Controls.Add(this.rbMoore);
             this.Controls.Add(this.label5);
@@ -204,6 +259,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnRandomize);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.tbGameSpeed)).EndInit();
@@ -228,5 +284,10 @@
         private Label label5;
         private RadioButton rbMoore;
         private RadioButton rbVonNeumann;
+        private Label label6;
+        private Label label7;
+        private Label label8;
+        private ComboBox cbCellColor;
+        private ComboBox cbGridColor;
     }
 }

@@ -12,7 +12,9 @@ namespace GameOfLife
         private System.Windows.Forms.Timer timer;
         private Random rand;
 
-        int[,] cells;
+        private Color cellColor, gridColor;
+
+        private int[,] cells;
 
         private bool gridInitialized, randomize, running;
 
@@ -25,6 +27,11 @@ namespace GameOfLife
             InitializeComponent();
             InitializePictureBox();
             InitializeGame();
+
+            cbCellColor.SelectedIndexChanged += new EventHandler(cbCellColor_SelectedIndexChanged);
+            cbGridColor.SelectedIndexChanged += new EventHandler(cbGridColor_SelectedIndexChanged);
+
+            InitializeColorLists();
 
             rbMoore.Checked = true;
 
@@ -60,10 +67,33 @@ namespace GameOfLife
 
             pb.Invalidate();
         }
+        
+        private void InitializeColorLists()
+        {
+            cbCellColor.Items.Add(Color.Red);
+            cbCellColor.Items.Add(Color.Orange);
+            cbCellColor.Items.Add(Color.Yellow);
+            cbCellColor.Items.Add(Color.Green);
+            cbCellColor.Items.Add(Color.Blue);
+            cbCellColor.Items.Add(Color.Indigo);
+            cbCellColor.Items.Add(Color.Violet);
+            cbCellColor.Items.Add(Color.Black);
+
+            cbGridColor.Items.Add(Color.Red);
+            cbGridColor.Items.Add(Color.Orange);
+            cbGridColor.Items.Add(Color.Yellow);
+            cbGridColor.Items.Add(Color.Green);
+            cbGridColor.Items.Add(Color.Blue);
+            cbGridColor.Items.Add(Color.Indigo);
+            cbGridColor.Items.Add(Color.Violet);
+            cbGridColor.Items.Add(Color.Black);
+
+            cbCellColor.SelectedIndex = cbGridColor.SelectedIndex = 7;
+        }
 
         private void InitializeGrid(Graphics g)
         {
-            Pen pen = new Pen(Color.DimGray, 1);
+            Pen pen = new Pen(gridColor, 1);
 
             for (int i = 0; i < cellRows; i++)
             {
@@ -78,8 +108,8 @@ namespace GameOfLife
 
         private void DrawGrid(Graphics g)
         {
-            Pen pen = new Pen(Color.DimGray, 1);
-            SolidBrush aliveBrush = new SolidBrush(Color.Violet);
+            Pen pen = new Pen(gridColor, 1);
+            SolidBrush aliveBrush = new SolidBrush(cellColor);
 
             for (int i = 0; i < cellRows; i++)
             {
@@ -120,7 +150,7 @@ namespace GameOfLife
         private void ProcessGameState()
         {
             int[] neighbors;
-            int[,] cellsCopy = cells;
+            int[,] updatedCells = cells.Clone() as int[,];
 
             if (rbMoore.Checked)
             {
@@ -133,77 +163,77 @@ namespace GameOfLife
                         // Get all neighbors
                         if (i < cellRows - 1)
                         {
-                            neighbors[0] = cellsCopy[i + 1, j];
+                            neighbors[0] = cells[i + 1, j];
                         }
                         else
                         {
-                            neighbors[0] = cellsCopy[0, j];
+                            neighbors[0] = cells[0, j];
                         }
 
                         if (i > 0)
                         {
-                            neighbors[1] = cellsCopy[i - 1, j];
+                            neighbors[1] = cells[i - 1, j];
                         }
                         else
                         {
-                            neighbors[1] = cellsCopy[cellRows - 1, j];
+                            neighbors[1] = cells[cellRows - 1, j];
                         }
 
                         if (j < cellColumns - 1)
                         {
-                            neighbors[2] = cellsCopy[i, j + 1];
+                            neighbors[2] = cells[i, j + 1];
                         }
                         else
                         {
-                            neighbors[2] = cellsCopy[i, 0];
+                            neighbors[2] = cells[i, 0];
                         }
 
                         if (j > 0)
                         {
-                            neighbors[3] = cellsCopy[i, j - 1];
+                            neighbors[3] = cells[i, j - 1];
                         }
                         else
                         {
-                            neighbors[3] = cellsCopy[i, cellColumns - 1];
+                            neighbors[3] = cells[i, cellColumns - 1];
                         }
 
                         if (i < cellRows - 1 && j < cellColumns - 1)
                         {
-                            neighbors[4] = cellsCopy[i + 1, j + 1];
+                            neighbors[4] = cells[i + 1, j + 1];
                         }
                         else if (i > cellRows - 1 && j > cellColumns - 1)
                         {
-                            neighbors[4] = cellsCopy[0, 0];
+                            neighbors[4] = cells[0, 0];
                         }
 
                         if (i > 0 && j > 0)
                         {
-                            neighbors[5] = cellsCopy[i - 1, j - 1];
+                            neighbors[5] = cells[i - 1, j - 1];
                         }
                         else if (i < 0 && j < 0)
                         {
-                            neighbors[5] = cellsCopy[cellRows - 1, cellColumns - 1];
+                            neighbors[5] = cells[cellRows - 1, cellColumns - 1];
                         }
 
                         if (i < cellRows - 1 && j > 0)
                         {
-                            neighbors[6] = cellsCopy[i + 1, j - 1];
+                            neighbors[6] = cells[i + 1, j - 1];
                         }
                         else if (i > cellRows - 1 && j < 0)
                         {
-                            neighbors[6] = cellsCopy[0, cellColumns - 1];
+                            neighbors[6] = cells[0, cellColumns - 1];
                         }
 
                         if (i > 0 && j < cellColumns - 1)
                         {
-                            neighbors[7] = cellsCopy[i - 1, j + 1];
+                            neighbors[7] = cells[i - 1, j + 1];
                         }
                         else if (i < 0 && j > cellColumns - 1)
                         {
-                            neighbors[7] = cellsCopy[cellRows - 1, 0];
+                            neighbors[7] = cells[cellRows - 1, 0];
                         }
 
-                        ProcessCell(i, j, neighbors);
+                        ProcessCell(i, j, neighbors, updatedCells);
                     }
                 }
             }
@@ -251,13 +281,15 @@ namespace GameOfLife
                             neighbors[3] = cells[i, 0];
                         }
 
-                        ProcessCell(i, j, neighbors);
+                        ProcessCell(i, j, neighbors, updatedCells);
                     }
                 }
             }
+
+            cells = updatedCells;
         }
 
-        private void ProcessCell(int i, int j, int[] neighbors)
+        private void ProcessCell(int i, int j, int[] neighbors, int[,] updatedCells)
         {
             int aliveCount = 0;
 
@@ -274,14 +306,14 @@ namespace GameOfLife
             {
                 if (aliveCount != 2 && aliveCount != 3)
                 {
-                    cells[i, j] = 0;
+                    updatedCells[i, j] = 0;
                 }
             }
             else    // Dead cell logic 
             {
                 if (aliveCount == 3)
                 {
-                    cells[i, j] = 1;
+                    updatedCells[i, j] = 1;
                 }
             }
         }
@@ -289,6 +321,16 @@ namespace GameOfLife
         private void UpdateTimerInterval()
         {
             timer.Interval = ((tbGameSpeed.Maximum - tbGameSpeed.Value) + 1) * 50;
+        }
+
+        private void cbCellColor_SelectedIndexChanged(Object sender, EventArgs e)
+        {
+            cellColor = (Color) cbCellColor.SelectedItem;
+        }
+
+        private void cbGridColor_SelectedIndexChanged(Object sender, EventArgs e)
+        {
+            gridColor = (Color)cbGridColor.SelectedItem;
         }
 
         private void rbMoore_Click(Object sender, EventArgs e)
@@ -352,6 +394,10 @@ namespace GameOfLife
             InitializeGame();
         }
 
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void btnRandomize_Click(object sender, EventArgs e)
         {
