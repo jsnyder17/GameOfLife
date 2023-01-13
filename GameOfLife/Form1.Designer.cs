@@ -47,6 +47,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.cbCellColor = new System.Windows.Forms.ComboBox();
             this.cbGridColor = new System.Windows.Forms.ComboBox();
+            this.authorLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tbGameSpeed)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,7 +75,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(534, 38);
+            this.label1.Location = new System.Drawing.Point(548, 39);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(223, 21);
             this.label1.TabIndex = 2;
@@ -235,11 +236,21 @@
             this.cbGridColor.Size = new System.Drawing.Size(121, 23);
             this.cbGridColor.TabIndex = 18;
             // 
+            // authorLabel
+            // 
+            this.authorLabel.AutoSize = true;
+            this.authorLabel.Location = new System.Drawing.Point(617, 60);
+            this.authorLabel.Name = "authorLabel";
+            this.authorLabel.Size = new System.Drawing.Size(38, 15);
+            this.authorLabel.TabIndex = 19;
+            this.authorLabel.Text = "label9";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 516);
+            this.Controls.Add(this.authorLabel);
             this.Controls.Add(this.cbGridColor);
             this.Controls.Add(this.cbCellColor);
             this.Controls.Add(this.label8);
@@ -289,5 +300,6 @@
         private Label label8;
         private ComboBox cbCellColor;
         private ComboBox cbGridColor;
+        private Label authorLabel;
     }
 }
